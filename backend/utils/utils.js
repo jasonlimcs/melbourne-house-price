@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-let __locations = null;
+let __suburbs = null;
 let __types = null;
 let __data_columns = null;
 let __model = null;
@@ -39,7 +39,7 @@ function predictHousePrice(suburb, distance, bedroom, bathroom, car, landsize, y
     const intercept = __model['intercept'];
     dot = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
 
-    predictedPrice = dot(x, coefficients) + intercept;
+    const predictedPrice = dot(x, coefficients) + intercept;
     return predictedPrice.toFixed(2);
 }
 
@@ -54,7 +54,7 @@ function loadSavedArtifacts() {
 
     const columnsData = JSON.parse(fs.readFileSync(columnsPath));
     __data_columns = columnsData['data_columns'];
-    __locations = __data_columns.slice(6, __data_columns.length-3);
+    __suburbs = __data_columns.slice(6, __data_columns.length-3);
     __types = __data_columns.slice(__data_columns.length-3);
 
     if (__model == null) {
@@ -65,8 +65,8 @@ function loadSavedArtifacts() {
     console.log("Loaded saved artifacts.");
 }
 
-function getLocationNames() {
-    return __locations;
+function getSuburbNames() {
+    return __suburbs;
 }
 
 function getTypes() {
@@ -81,11 +81,12 @@ function getDataColumns() {
 // loadSavedArtifacts();
 // console.log(predictHousePrice('Airport West', 13, 3, 2, 1, 500, 2000, 'u'))
 // console.log(__model['coefficients'])
-// console.log(getLocationNames());   
+// console.log(getSuburbNames());   
 
 module.exports = {
-    getLocationNames,
+    getSuburbNames,
     getTypes,
     getDataColumns,
-    loadSavedArtifacts
+    loadSavedArtifacts,
+    predictHousePrice
 };
