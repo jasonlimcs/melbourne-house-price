@@ -3,25 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Melbourne House Price Prediction</title>
 </head>
 <body>
-    Melbourne house price prediction
-    <form action="POST">
+    <h2>Melbourne house price prediction</h2>
+    <form action="/predictPrice" method="POST">
+        <label for="suburb">Suburb:</label>
+        <select name="suburb" id="suburb">
+            <% suburbs.forEach(suburb => { %>
+                <option value="<%= suburb.slice(7) %>"><%= suburb.slice(7).toUpperCase() %></option>
+            <% }); %>
+        </select><br>
         
-        <input type="text" name="type" placeholder="Type">
-        <input type="text" name="method" placeholder="Method">
-        <input type="text" name="seller" placeholder="Seller">
-        <input type="text" name="date" placeholder="Date">
-        <input type="text" name="distance" placeholder="Distance">
-        <input type="text" name="postcode" placeholder="Postcode">
-        <input type="text" name="bedroom" placeholder="Bedroom">
-        <input type="text" name="bathroom" placeholder="Bathroom">
-        <input type="text" name="car" placeholder="Car">
-        <input type="text" name="landsize" placeholder="Landsize">
-        <input type="text" name="buildingarea" placeholder="BuildingArea">
-        <input type="text" name="yearbuilt" placeholder="YearBuilt">
+        <label for="type">House Type:</label>
+        <select name="type" id="type">
+            <% types.forEach(type => { %>
+                <option value="<%= type.slice(5) %>"><%= type.slice(5).toUpperCase() %></option>
+            <% }); %>
+        </select><br>
+
+        <label for="distance">Distance from CBD:</label>
+        <input type="text" name="distance" id="distance" placeholder="Distance from CBD in km"><br>
+        
+        <label for="bedroom">No of Bedrooms:</label>
+        <input type="text" name="bedroom" id="bedroom" placeholder="Bedroom"><br>
+        
+        <label for="bathroom">No of Bathrooms:</label>
+        <input type="text" name="bathroom" id="bathroom" placeholder="Bathroom"><br>
+        
+        <label for="car">No of Carspots:</label>
+        <input type="text" name="car" id="car" placeholder="Car"><br>
+        
+        <label for="landsize">Landsize:</label>
+        <input type="text" name="landsize" id="landsize" placeholder="Landsize"><br>
+        
+        <label for="yearBuilt">Year Built:</label>
+        <input type="text" name="yearBuilt" id="yearBuilt" placeholder="YearBuilt"><br>
+        
         <button type="submit">Predict</button>
+    </form>
     </form>
 </body>
 </html>
