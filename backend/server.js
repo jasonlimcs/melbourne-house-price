@@ -13,10 +13,14 @@ app.set("view engine", "html");
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+let predictedPrice = null;
+
 app.listen(PORT, () => {    
     console.log(`Server listening on port ${PORT}`);
 });
+
 utils.loadSavedArtifacts();
+
 app.get('/', (req, res) => {
     
     res.render(VIEWS_FOLDER + 'index.html', {suburbs: utils.getSuburbNames(), types: utils.getTypes()});
@@ -42,8 +46,12 @@ app.post('/predictPrice', (req, res) => {
     const car = parseInt(req.body.car);
     const yearBuilt = parseInt(req.body.yearBuilt);
 
-    const predictedPrice = utils.predictHousePrice(suburb, distance, bedroom, bathroom, car, landsize, yearBuilt, type);
+    predictedPrice = utils.predictHousePrice(suburb, distance, bedroom, bathroom, car, landsize, yearBuilt, type);
     // const predictedPrice = utils.predictHousePrice('Airport West', 13, 3, 2, 1, 500, 2000, 'u')
     // const predictedPrice = {suburb, type, distance, bedroom, bathroom, landsize, car, yearBuilt};
-    res.send(predictedPrice);
+    res.redirect('/showPrice');
+});
+
+app.get('/showPrice', (req, res) => {
+    res.render(VIEWS_FOLDER + 'price_prediction.html', {predictedPrice: predictedPrice});
 });
